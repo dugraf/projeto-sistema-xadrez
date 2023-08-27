@@ -2,39 +2,83 @@ package model.entities.boardgame;
 
 public class Board
 {
-    private int row, column;
+    private int rows, columns;
     
     private Piece[][] pieces;
 
-    public Board(int row, int column) {
-        this.row = row;
-        this.column = column;
-        pieces = new Piece[row][column];
+    public Board(int rows, int columns) {
+        if (rows < 1 || columns < 1)
+            throw new BoardException("Error creating board, there must be at least 1 row and 1 comlumn!");
+        this.rows = rows;
+        this.columns = columns;
+        pieces = new Piece[rows][columns];
     }
 
-    public int getRow() {
-        return row;
+    public int getRows() {
+        return rows;
     }
 
-    public void setRow(int row) {
-        this.row = row;
+    public int getColumns() {
+        return columns;
     }
 
-    public int getColumn() {
-        return column;
+    public Piece piece(int row, int column)
+    {
+        if(!positionExists(row, column))
+            throw new BoardException("Position not on the board!");
+        return pieces[row][column];
     }
 
-    public void setColumn(int column) {
-        this.column = column;
+    public Piece piece(Position position)
+    {
+        if(!positionExists(position))
+            throw new BoardException("Position not on the board!");
+        return pieces[position.getRow()][position.getColumn()];
     }
 
+    public void placePiece(Piece piece, Position position)
+    {
+        if(thereIsAPiece(position))
+            throw new BoardException("There is already a piece on position " + position);
+        pieces[position.getRow()][position.getColumn()] = piece;
+        piece.position = position;
+    }
+
+    public Piece removePiece(Position position)
+    {
+        if(!positionExists(position))
+            throw new BoardException("Position not on the board!");
+        if(piece(position) == null)
+            return null;
+        Piece aux = piece(position);
+        aux.position = null;
+        pieces[position.getRow()][position.getColumn()] = null;
+        return aux;
+    }
+
+    public boolean positionExists(int row, int column)
+    {
+        return row >= 0 && row < rows && column >= 0 && column < columns;
+    }
+
+    public boolean positionExists(Position position)
+    {   
+        return  positionExists(position.getRow(), position.getColumn());
+    }
+
+    public boolean thereIsAPiece(Position position)
+    {
+        if(!positionExists(position))
+            throw new BoardException("Position not on the board!");
+        return piece(position) != null;
+    }
 
     @Override
     public String toString() {
         String board = "";
-        for(int i = 0; i < row; i++)
+        for(int i = 0; i < rows; i++)
         {
-            for(int j = 0; j < column; j++)
+            for(int j = 0; j < columns; j++)
                 board += "[ ]";
             board += "\n";
         }

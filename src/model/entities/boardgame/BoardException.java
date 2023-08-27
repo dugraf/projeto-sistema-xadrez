@@ -1,6 +1,6 @@
 package model.entities.boardgame;
 
-public class BoardException extends Exception
+public class BoardException extends RuntimeException
 {
     public BoardException(String msg)
     {
