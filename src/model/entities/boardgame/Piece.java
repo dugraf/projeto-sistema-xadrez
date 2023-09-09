@@ -1,6 +1,6 @@
 package model.entities.boardgame;
 
-public class Piece
+public abstract class Piece
 {
     protected Position position;
     private Board board;
@@ -16,22 +16,20 @@ public class Piece
         return board;
     }
 
-    public boolean[][] possibleMoves()
-    {
-
-    }
+    public abstract boolean[][] possibleMoves();
 
     public boolean possibleMove(Position position)
     {
-        if(position.getRow() > 0 && position.getRow() <= board.getRow())
-            return true;
-        if(position.getColumn() > 0 && position.getColumn() <= board.getColumn())
-            return true;
-        return false;
+        return possibleMoves()[position.getRow()][position.getColumn()];
     }
 
     public boolean isThereAnyPossibleMove()
     {
-        
+        boolean[][] mat = possibleMoves();
+        for (int i = 0; i < mat.length; i++)
+            for (int j = 0; j < mat.length; j++)
+                if(mat[i][j])
+                    return true;
+        return false;
     }
 }

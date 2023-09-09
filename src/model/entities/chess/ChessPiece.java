@@ -2,8 +2,9 @@ package model.entities.chess;
 
 import model.entities.boardgame.Board;
 import model.entities.boardgame.Piece;
+import model.entities.boardgame.Position;
 
-public class ChessPiece extends Piece
+public abstract class ChessPiece extends Piece
 {
     private Color color;
     private int moveCount;
@@ -20,5 +21,11 @@ public class ChessPiece extends Piece
     public ChessPosition getChessPosition()
     {
         
+    }
+
+    protected boolean isThereOpponentPiece(Position position)
+    {
+        ChessPiece p = (ChessPiece) getBoard().piece(position);
+        return p != null && p.getColor() != color;
     }
 }

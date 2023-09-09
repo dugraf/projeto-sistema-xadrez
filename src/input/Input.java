@@ -1,13 +1,15 @@
 package input;
-import java.time.LocalDate;
-import java.util.Scanner;
 
-public class Input
-{
+import java.time.LocalDate;
+import java.util.NoSuchElementException;
+import java.util.Scanner;
+import java.util.regex.MatchResult;
+import java.util.regex.Pattern;
+
+public class Input {
     private static Scanner sc = new Scanner(System.in);
 
-    public static String inputString(String texto)
-    {
+    public static String inputString(String texto) {
         System.out.println(texto);
         return sc.next();
     }
@@ -45,8 +47,11 @@ public class Input
         return sc.next().charAt(0);
     }
 
-    public static LocalDate inputDate(String texto)
-    {
+    public static LocalDate inputDate(String texto) {
         return LocalDate.parse(sc.next());
+    }
+
+    public static String nextLine(){
+        return sc.nextLine();
     }
 }
