@@ -1,6 +1,9 @@
 package app;
 
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
+
 import input.Input;
 import model.entities.chess.ChessException;
 import model.entities.chess.ChessMatch;
@@ -12,16 +15,24 @@ public class Program
     public static void main(String[] args)
     {
         ChessMatch chessMatch = new ChessMatch();
+        List<ChessPiece> captured = new ArrayList<>();
         while(true)
         {
             try
             {
                 UI.clearScreen();
-                UI.printBoard(chessMatch.getPieces());
+                UI.printMatch(chessMatch, captured);
                 System.out.println();
                 ChessPosition source = UI.readChessPosition(Input.inputString("Source: "));
+
+                boolean[][] possibleMoves = chessMatch.possibleMoves(source);
+                UI.clearScreen();
+                UI.printBoard(chessMatch.getPieces(), possibleMoves);
+
                 ChessPosition target = UI.readChessPosition(Input.inputString("Target: "));
                 ChessPiece capturedPiece = chessMatch.performChessMove(source, target);
+                if(capturedPiece != null)
+                    captured.add(capturedPiece);
             }
             catch(ChessException e)
             {
