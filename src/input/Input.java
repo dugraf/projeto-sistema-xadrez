@@ -1,10 +1,8 @@
 package input;
 
 import java.time.LocalDate;
-import java.util.NoSuchElementException;
 import java.util.Scanner;
-import java.util.regex.MatchResult;
-import java.util.regex.Pattern;
+
 
 public class Input {
     private static Scanner sc = new Scanner(System.in);
